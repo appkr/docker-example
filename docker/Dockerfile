@@ -17,7 +17,7 @@ COPY files /
 #-------------------------------------------------------------------------------
 
 RUN rm /etc/nginx/sites-available/default \
-    && rm rm /etc/nginx/sites-enabled/default \
+    && rm /etc/nginx/sites-enabled/default \
     && ln -nfs /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/
 
 #-------------------------------------------------------------------------------
