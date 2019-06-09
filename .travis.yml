@@ -1,0 +1,31 @@
+language: php
+
+php:
+  - 7.1
+
+services:
+  - docker
+
+before_install:
+  - ls -d docker/datadir/* | grep -v .gitignore | xargs rm -rf
+  - docker build -f docker/Dockerfile --tag lemp:travis docker
+  - sleep 15
+  - docker run -d --name lemp -v `pwd`:/var/www/html -p 8000:80 lemp:travis
+
+install:
+  - composer self-update
+  - travis_retry composer install --no-interaction --no-scripts --prefer-source
+
+before_script:
+  - TRAVIS=true
+  - cp .env.example .env
+  - php artisan key:generate
+  - docker exec -it lemp chmod -R 777 /var/www/html/storage
+
+script:
+  - vendor/bin/phpunit
+  - docker container ls
+  - curl -s -XGET http://localhost:8000/health
+
+matrix:
+  fast_finish: true

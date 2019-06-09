@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/appkr/docker-example.svg?branch=master)](https://travis-ci.org/appkr/docker-example)
+
 ## Docker - 라라벨 개발 환경 구성하기
 
 [![](https://i.ytimg.com/vi/VstiWthEubU/0.jpg)](https://www.youtube.com/watch?v=VstiWthEubU)
