@@ -7,10 +7,10 @@ services:
   - docker
 
 before_install:
-  - ls -d docker/datadir/* | grep -v .gitignore | xargs rm -rf
-  - docker build -f docker/Dockerfile --tag lemp:travis docker
+  - ls -d docker/data/* | grep -v .gitignore | xargs rm -rf
+  - docker build -f docker/Dockerfile --tag lamp:travis docker
   - sleep 15
-  - docker run -d --name lemp -v `pwd`:/var/www/html -p 8000:80 lemp:travis
+  - docker run -d --name lamp -v `pwd`:/var/www/html -p 38401:80 lamp:travis
 
 install:
   - composer self-update
@@ -20,12 +20,14 @@ before_script:
   - TRAVIS=true
   - cp .env.example .env
   - php artisan key:generate
-  - docker exec -it lemp chmod -R 777 /var/www/html/storage
+  - docker exec -it lamp chmod -R 777 /var/www/html/storage
+  - docker exec -it lamp bash /refresh_mysql_pid.sh
 
 script:
   - vendor/bin/phpunit
   - docker container ls
-  - curl -s -XGET http://localhost:8000/health
+  - curl -s -XGET http://localhost:38401/health
+  - docker exec -it lamp mysql -e "SELECT 1;"
 
 matrix:
   fast_finish: true
