@@ -5,19 +5,25 @@ namespace App\Service;
 use App\Service\Dto\SortRule;
 use App\Service\Dto\UserDto;
 use App\Service\Dto\UserSearchParam;
+use App\Service\Mapper\UserMapper;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
+    private $userMapper;
+
+    public function __construct(UserMapper $userMapper)
+    {
+        $this->userMapper = $userMapper;
+    }
+
     public function createUser(UserDto $dto)
     {
-        $user = new User();
-        $user->name = $dto->getName();
-        $user->password = Hash::make($dto->getPassword());
-        $user->birthday = $dto->getBirthday();
+        $user = $this->userMapper->toModel($dto);
         $user->save();
+
+        return $this->userMapper->toDto($user);
     }
 
     /**
@@ -35,7 +41,29 @@ class UserService
         $this->applySearchParam($qb, $param);
         $this->applySortRule($qb, $param);
 
-        return $qb->paginate($param->getPage(), ['*'], 'page', $param->getPage());
+        $paginator = $qb->paginate($param->getPage(), ['*'], 'page', $param->getPage());
+        $dto = $this->userMapper->toPaginated($paginator);
+
+        return $dto;
+    }
+
+    public function updateUser(int $userId, UserDto $dto)
+    {
+        $user = $this->findById($userId);
+
+        $name = $dto->getName();
+        if ($name != null) {
+            $user->name = $name;
+        }
+
+        $birthday = $dto->getBirthday();
+        if ($birthday != null) {
+            $user->birthday = $birthday;
+        }
+
+        $user->save();
+
+        return $this->userMapper->toDto($user);
     }
 
     private function isNotEmpty($value)
@@ -73,22 +101,5 @@ class UserService
         foreach ($sortRule as $sort) {
             $qb->orderBy($sort->getSortKey(), $sort->getSortDirection());
         }
-    }
-
-    public function updateUser(int $userId, UserDto $dto)
-    {
-        $user = $this->findById($userId);
-
-        $name = $dto->getName();
-        if ($name != null) {
-            $user->name = $name;
-        }
-
-        $birthday = $dto->getBirthday();
-        if ($birthday != null) {
-            $user->birthday = $birthday;
-        }
-
-        $user->save();
     }
 }

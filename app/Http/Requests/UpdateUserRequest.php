@@ -22,9 +22,12 @@ class UpdateUserRequest extends FormRequest
 
     public function toUserDto()
     {
-        return new UserDto(
-            $this->get('name'),
-            $this->has('birthday') ? Carbon::parse($this->get('birthday')) : null
-        );
+        $dto = new UserDto();
+        $dto->setName($this->get("name"));
+        if ($this->has("birthday")) {
+            Carbon::parse($this->get('birthday'));
+        }
+
+        return $dto;
     }
 }

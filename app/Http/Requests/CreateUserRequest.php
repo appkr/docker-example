@@ -26,11 +26,14 @@ class CreateUserRequest extends FormRequest
 
     public function toUserDto()
     {
-        return new UserDto(
-            $this->get("name"),
-            $this->get("email"),
-            $this->get("password"),
-            Carbon::parse($this->get("birthday"))
-        );
+        $dto = new UserDto();
+        $dto->setName($this->get("name"));
+        $dto->setEmail($this->get("email"));
+        $dto->setPassword($this->get("password"));
+        if ($this->has("birthday")) {
+            $dto->setBirthday(Carbon::parse($this->get("birthday")));
+        }
+
+        return $dto;
     }
 }
