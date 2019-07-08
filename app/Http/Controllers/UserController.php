@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public function createUser(CreateUserRequest $req)
     {
-        $dto = $req->toUserDto();
+        $dto = $req->toDto();
         $userDto = $this->userService->createUser($dto);
 
         return new JsonResponse(null, Response::HTTP_CREATED, [
@@ -35,7 +35,7 @@ class UserController extends Controller
 
     public function createUserAsync(CreateUserRequest $req)
     {
-        $dto = $req->toUserDto();
+        $dto = $req->toDto();
         $this->jobDispatcher->dispatch(new CreateUserJob($dto));
 
         return new JsonResponse(null, Response::HTTP_ACCEPTED);
@@ -51,7 +51,7 @@ class UserController extends Controller
 
     public function updateUser(int $userId, UpdateUserRequest $req)
     {
-        $dto = $req->toUserDto();
+        $dto = $req->toDto();
         $this->userService->updateUser($userId, $dto);
 
         return new JsonResponse(null, Response::HTTP_CREATED);
