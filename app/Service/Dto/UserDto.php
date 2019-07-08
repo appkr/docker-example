@@ -34,11 +34,12 @@ class UserDto implements \JsonSerializable, Arrayable
         $this->updatedAt = $updatedAt;
     }
 
-    public function toArray()
-    {
-        unset($this->password);
-        return get_object_vars($this);
-    }
+// 역직렬화할 때 password 필드가 읽히지 않는 문제 해결을 위한 임시 주석 처리
+//    public function toArray()
+//    {
+//        unset($this->password);
+//        return get_object_vars($this);
+//    }
 
     public function getId()
     {
