@@ -12,15 +12,16 @@
 
 #### 이미지 빌드
 
+유튜브에 영상 업로드 후 `lamp` 브랜치는 `master` 브랜치에 머지되었습니다.
+
 ```bash
-~/docker-example(master) $ git checkout lamp
-~/docker-example(lamp) $ docker build -f docker/Dockerfile --tag lamp:190610 docker
+~/docker-example(master) $ docker build -f docker/Dockerfile --tag lamp:190610 docker
 ```
 
 #### 컨테이너 실행
 
 ```bash
-~/docker-example $ docker run -d \
+~/docker-example(master) $ docker run -d \
    --name mylamp \
    -v `pwd`:/var/www/html \
    -v `pwd`/docker/data:/var/lib/mysql \
