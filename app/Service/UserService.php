@@ -98,8 +98,10 @@ class UserService
     {
         /** @var SortRule[] $sortRule */
         $sortRule = $param->getSortRule();
-        foreach ($sortRule as $sort) {
-            $qb->orderBy($sort->getSortKey(), $sort->getSortDirection());
+        if (!empty($sortRule)) {
+            foreach ($sortRule as $sort) {
+                $qb->orderBy($sort->getSortKey(), $sort->getSortDirection());
+            }
         }
     }
 }
