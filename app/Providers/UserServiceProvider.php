@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Service\ConcreteUserService;
 use App\Service\LoggableService;
+use App\Service\RetryableService;
 use App\Service\TransactionalUserService;
 use App\Service\UserService;
 use Illuminate\Contracts\Foundation\Application;
@@ -16,12 +17,15 @@ class UserServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(UserService::class, function (Application $app) {
-            $delegate = $app->make(ConcreteUserService::class);
+            $concrete = $app->make(ConcreteUserService::class);
             $connection = $app->make(ConnectionInterface::class);
             $logger = $app->make(LoggerInterface::class);
 
             return new LoggableService(
-                new TransactionalUserService($delegate, $connection),
+                new RetryableService(
+                    new TransactionalUserService($concrete, $connection),
+                    $logger
+                ),
                 $logger
             );
         });
