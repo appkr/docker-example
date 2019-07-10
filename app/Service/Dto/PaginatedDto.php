@@ -17,6 +17,11 @@ class PaginatedDto implements \JsonSerializable, Arrayable
         $this->page = $page;
     }
 
+    public function __toString()
+    {
+        return json_encode($this->toArray());
+    }
+
     public function getData()
     {
         return $this->data;

@@ -34,9 +34,14 @@ class UserDto implements \JsonSerializable, Arrayable
         $this->updatedAt = $updatedAt;
     }
 
+    public function __toString()
+    {
+        return json_encode($this->toArray());
+    }
+
     public function toArray()
     {
-        unset($this->password);
+//        unset($this->password);
         return get_object_vars($this);
     }
 
