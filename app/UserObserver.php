@@ -16,7 +16,7 @@ class UserObserver
         $this->logger = $logger;
     }
 
-    public function saving(User $model)
+    public function saved(User $model)
     {
         $this->logger->info("Flushing cache");
         $this->cache->forget("*");

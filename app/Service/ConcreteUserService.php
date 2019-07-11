@@ -20,6 +20,7 @@ class ConcreteUserService implements UserService
 
     public function createUser(UserDto $dto)
     {
+        throw new \Exception("___STOP___");
         $user = $this->userMapper->toModel($dto);
         $user->save();
 

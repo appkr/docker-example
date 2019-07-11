@@ -26,16 +26,7 @@ class UserServiceProvider extends ServiceProvider
             $logger = $app->make(LoggerInterface::class);
             $cache = $app->make(Repository::class);
 
-            return new CacheableUserService(
-                new LoggableService(
-                    new RetryableService(
-                        new TransactionalUserService($concrete, $connection),
-                        $logger
-                    ),
-                    $logger
-                ),
-                $cache
-            );
+            return new CacheableUserService(new RetryableService(new LoggableService(new TransactionalUserService($concrete, $connection), $logger), $logger), $cache);
         });
     }
 
