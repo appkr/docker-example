@@ -4,8 +4,10 @@ namespace App\Service\Dto;
 
 use Carbon\Carbon;
 
-class UserSearchParam
+class UserSearchParam implements \JsonSerializable
 {
+    use ArrayableMembers;
+
     private $name;
     private $email;
     private $bornAfter;
@@ -30,6 +32,11 @@ class UserSearchParam
         $this->page = $page;
         $this->size = $size;
         $this->sortRule = $sortRule;
+    }
+
+    public function __toString()
+    {
+        return json_encode($this->jsonSerialize());
     }
 
     public function getName()

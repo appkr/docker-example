@@ -3,17 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Service\Dto\UserDto;
-use Carbon\Carbon;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Hash;
 
-class CreateUserRequest extends FormRequest
+class CreateUserRequest extends AbstractRequest
 {
-    public function authorize()
-    {
-        return true;
-    }
-
     public function rules()
     {
         return [
@@ -24,13 +16,8 @@ class CreateUserRequest extends FormRequest
         ];
     }
 
-    public function toUserDto()
+    public function getDtoClass()
     {
-        return new UserDto(
-            $this->get("name"),
-            $this->get("email"),
-            $this->get("password"),
-            Carbon::parse($this->get("birthday"))
-        );
+        return new UserDto();
     }
 }

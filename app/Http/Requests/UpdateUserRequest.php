@@ -3,10 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Service\Dto\UserDto;
-use Carbon\Carbon;
-use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class UpdateUserRequest extends AbstractRequest
 {
     public function authorize()
     {
@@ -20,11 +18,8 @@ class UpdateUserRequest extends FormRequest
         ];
     }
 
-    public function toUserDto()
+    public function getDtoClass()
     {
-        return new UserDto(
-            $this->get('name'),
-            $this->has('birthday') ? Carbon::parse($this->get('birthday')) : null
-        );
+        return new UserDto();
     }
 }
