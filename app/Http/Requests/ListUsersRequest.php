@@ -35,7 +35,8 @@ class ListUsersRequest extends FormRequest
             $this->has('born_before') ? Carbon::parse($this->get('born_before')) : null,
             $this->get('page'),
             $this->get('size'),
-            $sortRule
+            $sortRule,
+            $this->get('address')
         );
     }
 }

@@ -18,6 +18,7 @@ class UserMapper
         $user->email = $dto->getEmail();
         $user->password = Hash::make($dto->getPassword());
         $user->birthday = $dto->getBirthday();
+        $user->address = $dto->getAddress();
 
         return $user;
     }
@@ -31,6 +32,7 @@ class UserMapper
         $dto->setBirthday($model->birthday);
         $dto->setCreatedAt($model->created_at);
         $dto->setUpdatedAt($model->updated_at);
+        $dto->setAddress($model->address);
 
         return $dto;
     }
