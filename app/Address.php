@@ -30,7 +30,7 @@ class Address implements \JsonSerializable, Arrayable
         int $isBasement = null,
         string $buildingNumber = null,
         string $detail = null,
-        Point $point
+        Point $point = null
     ) {
         $this->siDo = $siDo;
         $this->siGunGu = $siGunGu;

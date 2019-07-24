@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Point;
 use Tests\TestCase;
 
 class PointTest extends TestCase
@@ -15,5 +16,16 @@ class PointTest extends TestCase
 
         echo $a->distanceTo($b)->format(2), PHP_EOL;
         $this->assertTrue(true);
+    }
+
+    public function testEquals()
+    {
+        $sut1 = new Point(0, 0);
+        $sut2 = new Point(0, 0);
+
+        echo spl_object_hash($sut1), PHP_EOL;
+        echo spl_object_hash($sut2), PHP_EOL;
+
+        $this->assertTrue($sut1->equals($sut2));
     }
 }

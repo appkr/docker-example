@@ -18,6 +18,23 @@ class Point implements \JsonSerializable, Arrayable
         $this->y = $y;
     }
 
+    public function distanceTo(Point $that): Distance
+    {
+        $distanceInMeter = acos(
+                sin($this->y * M_PI / 180) * sin($that->getY() * M_PI / 180)
+                + cos($this->y * M_PI / 180) * cos($that->getY() * M_PI / 180)
+                * cos(($this->x - $that->getX()) * M_PI / 180)
+            ) * 180 / M_PI * 60 * 1.1515 * 1.609344 * 1000;
+
+        return Distance::of($distanceInMeter, DistanceUnit::METER());
+    }
+
+    public function equals(Point $that)
+    {
+        return $this->x == $that->getX()
+            && $this->y == $that->getY();
+    }
+
     public function getX()
     {
         return $this->x;
@@ -36,16 +53,5 @@ class Point implements \JsonSerializable, Arrayable
     public function setY(string $y)
     {
         $this->y = $y;
-    }
-
-    public function distanceTo(Point $that): Distance
-    {
-        $distanceInMeter = acos(
-                sin($this->y * M_PI / 180) * sin($that->getY() * M_PI / 180)
-                + cos($this->y * M_PI / 180) * cos($that->getY() * M_PI / 180)
-                * cos(($this->x - $that->getX()) * M_PI / 180)
-            ) * 180 / M_PI * 60 * 1.1515 * 1.609344 * 1000;
-
-        return Distance::of($distanceInMeter, DistanceUnit::METER());
     }
 }

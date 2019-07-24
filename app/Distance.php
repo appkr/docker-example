@@ -23,17 +23,23 @@ class Distance
         return new static($value, $unit);
     }
 
-    public static function in(Distance $original, DistanceUnit $newUnit)
+    public function in(DistanceUnit $newUnit)
     {
-        if ($original->getUnit() == $newUnit) {
-            return new static($original->getValue(), $original->getUnit());
+        if ($this->unit == $newUnit) {
+            return new static($this->value, $this->unit);
         }
 
         return new static(
-            $original->getValue()
-                * ($original->getUnit()->getMultiplier() / $newUnit->getMultiplier()),
+            $this->value
+                * ($this->unit->getMultiplier() / $newUnit->getMultiplier()),
             $newUnit
         );
+    }
+
+    public function equals(Distance $that)
+    {
+        return $this->value == $that->getValue()
+            && $this->unit == $that->getUnit();
     }
 
     public function getValue(): float

@@ -25,7 +25,7 @@ class DistanceTest extends TestCase
     public function testCanConvertDistanceUnit()
     {
         $original = Distance::of(100, DistanceUnit::METER());
-        $converted = Distance::in($original, DistanceUnit::KILOMETER());
+        $converted = $original->in(DistanceUnit::KILOMETER());
 
         $this->assertEquals(0.1, $converted->getValue());
     }
@@ -33,7 +33,7 @@ class DistanceTest extends TestCase
     public function testCanConvertDistanceUnit2()
     {
         $original = Distance::of(1, DistanceUnit::KILOMETER());
-        $converted = Distance::in($original, DistanceUnit::METER());
+        $converted = $original->in(DistanceUnit::METER());
 
         $this->assertEquals(1000, $converted->getValue());
     }
