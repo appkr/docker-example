@@ -20,7 +20,6 @@ class ConcreteUserService implements UserService
 
     public function createUser(UserDto $dto)
     {
-        throw new \Exception("___STOP___");
         $user = $this->userMapper->toModel($dto);
         $user->save();
 
@@ -92,6 +91,19 @@ class ConcreteUserService implements UserService
         $bornBefore = $param->getBornBefore();
         if ($bornBefore != null) {
             $qb->where('birthday', "<=", $bornBefore->endOfDay());
+        }
+
+        $address = $param->getAddress();
+        if ($this->isNotEmpty($address)) {
+            $qb->where(function (Builder $qb) use ($address) {
+                $qb->orWhere('addr_si_do', 'like', "%{$address}%")
+                    ->orWhere('addr_si_gun_gu', 'like', "%{$address}%")
+                    ->orWhere('addr_dong_ri', 'like', "%{$address}%")
+                    ->orWhere('addr_jibun_number', 'like', "%{$address}%")
+                    ->orWhere('addr_road_name', 'like', "%{$address}%")
+                    ->orWhere('addr_building_number', 'like', "%{$address}%")
+                    ->orWhere('addr_detail', 'like', "%{$address}%");
+            });
         }
     }
 

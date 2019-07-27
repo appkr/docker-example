@@ -15,6 +15,7 @@ class UserSearchParam implements \JsonSerializable
     private $page;
     private $size;
     private $sortRule;
+    private $address;
 
     public function __construct(
         string $name = null,
@@ -23,7 +24,8 @@ class UserSearchParam implements \JsonSerializable
         Carbon $bornBefore = null,
         int $page = null,
         int $size = null,
-        array $sortRule = null
+        array $sortRule = null,
+        string $address = null
     ) {
         $this->name = $name;
         $this->email = $email;
@@ -32,6 +34,7 @@ class UserSearchParam implements \JsonSerializable
         $this->page = $page;
         $this->size = $size;
         $this->sortRule = $sortRule;
+        $this->address = $address;
     }
 
     public function __toString()
@@ -72,5 +75,10 @@ class UserSearchParam implements \JsonSerializable
     public function getSortRule()
     {
         return $this->sortRule;
+    }
+
+    public function getAddress()
+    {
+        return $this->address;
     }
 }

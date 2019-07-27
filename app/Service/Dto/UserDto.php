@@ -2,6 +2,7 @@
 
 namespace App\Service\Dto;
 
+use App\Address;
 use DateTime;
 
 class UserDto implements \JsonSerializable, Arrayable
@@ -15,6 +16,7 @@ class UserDto implements \JsonSerializable, Arrayable
     private $birthday;
     private $createdAt;
     private $updatedAt;
+    private $address;
 
     public function __construct(
         int $id = null,
@@ -23,7 +25,8 @@ class UserDto implements \JsonSerializable, Arrayable
         string $password = null,
         DateTime $birthday = null,
         DateTime $createdAt = null,
-        DateTime $updatedAt = null
+        DateTime $updatedAt = null,
+        Address $address = null
     ) {
         $this->id = $id;
         $this->name = $name;
@@ -32,6 +35,7 @@ class UserDto implements \JsonSerializable, Arrayable
         $this->birthday = $birthday;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
+        $this->address = $address;
     }
 
     public function __toString()
@@ -113,5 +117,15 @@ class UserDto implements \JsonSerializable, Arrayable
     public function setUpdatedAt(DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    public function setAddress(Address $address)
+    {
+        $this->address = $address;
     }
 }
